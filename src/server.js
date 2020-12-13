@@ -4,9 +4,12 @@ import bodyParser from "body-parser";
 
 import { join } from "path";
 
+import { localMiddleware } from "./middlewares";
+
 import globalRouter from "./router/globalRouter";
 import routes from "../routes";
-import { localMiddleware } from "./middlewares";
+
+import "./db";
 
 const PORT = 4000;
 const app = express();
