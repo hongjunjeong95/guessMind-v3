@@ -5,6 +5,8 @@ import bodyParser from "body-parser";
 import { join } from "path";
 
 import globalRouter from "./router/globalRouter";
+import routes from "../routes";
+import { localMiddleware } from "./middlewares";
 
 const PORT = 4000;
 const app = express();
@@ -12,15 +14,17 @@ const app = express();
 app.set("view engine", "pug");
 app.set("views", join(__dirname, "views"));
 
-app.use(morgan());
+app.use(morgan("dev"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(localMiddleware);
 
 const handleListening = () => {
   console.log(`✅ Listening on : http://localhost:${PORT}`);
 };
 
-app.use("/", globalRouter);
+app.use(routes.home, globalRouter);
 
 app.listen(PORT, handleListening);

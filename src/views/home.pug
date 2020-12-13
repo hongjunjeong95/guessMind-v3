@@ -1,5 +1,13 @@
 extends layouts/main
 
 block content
-  p hello
-    
+  if !loggedUser
+    ul.loginBox
+      li.login
+        button
+          a(href=routes.login) Login
+      li.signUp
+        button
+          a(href=routes.signUp) Sign up
+  else
+    p home
