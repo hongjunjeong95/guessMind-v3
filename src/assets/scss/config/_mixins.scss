@@ -1,0 +1,19 @@
+@mixin link {
+  .link {
+    width: 100%;
+    background-color: $greyColor;
+    box-shadow: $boxShadow;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    &:first-child {
+      margin-bottom: 20px;
+    }
+    a {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      color: black;
+    }
+  }
+}

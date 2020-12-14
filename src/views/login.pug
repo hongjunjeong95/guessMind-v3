@@ -5,6 +5,6 @@ block content
     form(action=routes.login, method="post")
       input(type="text", placeholder="Full name", name="username" required=true)
       input(type="password", placeholder="Password", name="password" required=true)
-      input(type="submit", value="Login")
-  button
-    a(href=routes.home) Back
+      input(type="submit", value="Login").link
+    button.link
+      a(href=routes.home) Back

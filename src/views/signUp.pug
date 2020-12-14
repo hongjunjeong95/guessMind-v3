@@ -10,6 +10,6 @@ block content
       input(type="email", placeholder="Email", name="email" required=true)
       input(type="password", placeholder="Password", name="password" required=true)
       input(type="password", placeholder="Verify password", name="password2" required=true)
-      input(type="submit", value="Sign up")
-  button
-    a(href=routes.home) Back
+      input(type="submit", value="Sign up").link
+    button.link
+      a(href=routes.home) Back

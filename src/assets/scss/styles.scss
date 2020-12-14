@@ -1,4 +1,11 @@
 @import "./config/reset.scss";
 @import "./config/_variables.scss";
+@import "./config/mixins";
 
-@import "./notifications.scss";
+@import "./partials/accoutManage.scss";
+@import "./partials/notifications.scss";
+
+@import "./pages/body.scss";
+@import "./pages/login.scss";
+@import "./pages/home.scss";
+@import "./pages/signUp.scss";

@@ -2,13 +2,12 @@ extends layouts/main
 
 block content
   if !loggedUser
-    ul.loginBox
-      li.login
-        button
-          a(href=routes.login) Login
-      li.signUp
-        button
-          a(href=routes.signUp) Sign up
+    .loginBox
+      button.link
+        a(href=routes.login) Login
+      button.link
+        a(href=routes.signUp) Sign up
   else
-    button
-      a(href=routes.logout) Logout
+    .logout
+      button.link
+        a(href=routes.logout) Logout

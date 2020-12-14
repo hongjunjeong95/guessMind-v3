@@ -1,0 +1,8 @@
+.loginBox {
+  width: 280px;
+  padding: 40px;
+  box-shadow: $boxShadow;
+  background-color: white;
+  border-radius: 5px;
+  @include link();
+}
