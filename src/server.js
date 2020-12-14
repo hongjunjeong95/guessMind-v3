@@ -23,6 +23,8 @@ const CookieStore = MongoStore(session);
 app.set("view engine", "pug");
 app.set("views", join(__dirname, "views"));
 
+app.use("/static", express.static(join(__dirname, "static")));
+
 app.use(morgan("dev"));
 
 app.use(bodyParser.json());
