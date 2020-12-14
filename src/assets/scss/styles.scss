@@ -1,3 +1,4 @@
-body {
-  background-color: peru;
-}
+@import "./config/reset.scss";
+@import "./config/_variables.scss";
+
+@import "./notifications.scss";

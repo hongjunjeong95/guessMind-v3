@@ -1,10 +1,14 @@
 import passport from "passport";
-import routes from "../../routes";
+import routes from "../routes";
 import User from "../models/User";
+import events from "../events";
+import io from "../server";
+
+const superBroadcast = (event, data) => io.emit(event, data);
 
 export const home = (req, res) => {
   try {
-    res.render("home", { pageTitle: "home" });
+    res.render("home", { pageTitle: "home", events: JSON.stringify(events) });
   } catch (error) {
     console.log(error);
   }
@@ -12,7 +16,10 @@ export const home = (req, res) => {
 
 export const getSignUp = (req, res) => {
   try {
-    res.render("signUp", { pageTitle: "signUp" });
+    res.render("signUp", {
+      pageTitle: "signUp",
+      events: JSON.stringify(events),
+    });
   } catch (error) {
     console.log(error);
     res.redirect(routes.home);
@@ -45,7 +52,7 @@ export const postSignUp = async (req, res, next) => {
 
 export const getLogin = (req, res) => {
   try {
-    res.render("Login", { pageTitle: "Login" });
+    res.render("Login", { pageTitle: "Login", events: JSON.stringify(events) });
   } catch (error) {
     console.log(error);
     res.redirect(routes.home);
@@ -53,9 +60,22 @@ export const getLogin = (req, res) => {
 };
 
 export const postLogin = passport.authenticate("local", {
-  successRedirect: routes.home,
   failureRedirect: routes.login,
 });
+
+export const notifyLogin = async (req, res) => {
+  const {
+    user: { id },
+  } = req;
+  const newUser = await User.findById(id);
+  const username = newUser.username;
+  io.once("connection", (socket) => {
+    io.to(socket.id).emit(events.newUser, { username });
+  });
+  superBroadcast(events.newUser, { username });
+
+  res.redirect(routes.home);
+};
 
 export const logout = (req, res) => {
   req.logout();

@@ -1,5 +1,5 @@
 import express from "express";
-import routes from "../../routes";
+import routes from "../routes";
 import {
   getSignUp,
   postSignUp,
@@ -7,6 +7,7 @@ import {
   getLogin,
   postLogin,
   logout,
+  notifyLogin,
 } from "../controller/globalController";
 import { onlyPrivate, onlyPublic, uploadAvatar } from "../middlewares";
 
@@ -21,12 +22,13 @@ globalRouter.post(
   onlyPublic,
   uploadAvatar,
   postSignUp,
-  postLogin
+  postLogin,
+  notifyLogin
 );
 
 // Login
 globalRouter.get(routes.login, onlyPublic, getLogin);
-globalRouter.post(routes.login, onlyPublic, postLogin);
+globalRouter.post(routes.login, onlyPublic, postLogin, notifyLogin);
 
 // logout
 globalRouter.get(routes.logout, onlyPrivate, logout);

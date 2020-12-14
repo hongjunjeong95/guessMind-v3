@@ -5,16 +5,18 @@ import passport from "passport";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
+import socketIO from "socket.io";
 
 import { join } from "path";
 
 import { localMiddleware } from "./middlewares";
 
 import globalRouter from "./router/globalRouter";
-import routes from "../routes";
+import routes from "./routes";
 
 import "./db";
 import "./passport";
+import { socketController } from "./socketController";
 
 const PORT = 4000;
 const app = express();
@@ -50,4 +52,9 @@ const handleListening = () => {
 
 app.use(routes.home, globalRouter);
 
-app.listen(PORT, handleListening);
+const server = app.listen(PORT, handleListening);
+const io = socketIO(server);
+
+io.on("connection", (socket) => socketController(socket, io));
+
+export default io;
