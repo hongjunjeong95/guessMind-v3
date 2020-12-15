@@ -70,9 +70,9 @@ export const notifyLogin = async (req, res) => {
   const newUser = await User.findById(id);
   const username = newUser.username;
   io.once("connection", (socket) => {
-    io.to(socket.id).emit(events.newUser, { username });
+    io.to(socket.id).emit(events.login, { username });
+    socket.broadcast.emit(events.newUser, { username });
   });
-  superBroadcast(events.newUser, { username });
 
   res.redirect(routes.home);
 };
