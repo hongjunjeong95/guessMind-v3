@@ -8,10 +8,11 @@ block content
       button.link
         a(href=routes.signUp) Sign up
   else
-    .logout
-      button.link#jsLogOut
-        a(href=routes.logout) Logout
-    .chat
-      ul.chat__messages#jsMessages
-      form.chat__form#jsSendMsg
-        input(placeholder="Write a message", type="text")
+    .side
+      .logout
+        button.link#jsLogOut
+          a(href=routes.logout) Logout
+      .chat
+        ul.chat__messages#jsMessages
+        form.chat__form#jsSendMsg
+          input(placeholder="Write a message", type="text")
