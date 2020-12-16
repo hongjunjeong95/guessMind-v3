@@ -8,6 +8,8 @@ const events = {
   beganPth: "beganPth",
   strokePath: "strokePath",
   strokenPath: "strokenPath",
+  fill: "fill",
+  filled: "filled",
 };
 
 export default events;

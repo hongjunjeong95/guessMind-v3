@@ -84,8 +84,18 @@ const handleInputRangeFill = (e) => {
   ctx.lineWidth = size;
 };
 
+const fill = (color = null) => {
+  let currentColor = ctx.fillStyle;
+  if (color !== null) currentColor = color;
+  ctx.fillStyle = currentColor;
+  ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+};
+
 const handleClickFill = () => {
-  if (filling) ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  if (filling) {
+    fill();
+    getSocket().emit(window.events.fill, { color: ctx.strokeStyle });
+  }
 };
 
 const handleClickMode = () => {
@@ -107,16 +117,9 @@ const handleClickEraser = () => {
   ctx.globalCompositeOperation = "destination-out";
 };
 
-const handleClickSave = () => {
-  const image = canvas.toDataURL();
-  const link = document.createElement("a");
-  link.href = image;
-  link.download = "PaintJS[🎨]";
-  link.click();
-};
-
 export const handleBeganPth = ({ x, y, size }) => beginPath(x, y, size);
 export const handleStrokenPath = ({ x, y, color }) => strokePath(x, y, color);
+export const handleFilled = ({ color }) => fill(color);
 
 if (canvas) {
   canvas.addEventListener("mousemove", handleMousemove);
