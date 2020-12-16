@@ -3,7 +3,7 @@ import { getSocket } from "./sockets";
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
-const boldRange = document.getElementById("jsRangeFill");
+const boldRange = document.getElementById("jsRangePencil");
 const mode = document.getElementById("jsMode");
 const eraser = document.getElementById("jsEraser");
 const eraserRange = document.getElementById("jsRangeEraser");
@@ -14,6 +14,7 @@ const INITIAL_LINE_WIDTH = 2.5;
 
 let painting = false;
 let filling = false;
+let erasing = false;
 
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
@@ -73,13 +74,21 @@ const handleMouseLeave = () => {
   stopPaint();
 };
 
+const setPencil = () => {
+  erasing = false;
+  ctx.globalCompositeOperation = "source-over";
+  ctx.lineWidth = boldRange.value;
+};
+
 const handleClickColor = (e) => {
   const color = e.target.style.backgroundColor;
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
+  setPencil();
+  getSocket().emit(window.events.setPencil);
 };
 
-const handleInputRangeFill = (e) => {
+const handleInputRangePencil = (e) => {
   const size = e.target.value;
   ctx.lineWidth = size;
 };
@@ -92,7 +101,7 @@ const fill = (color = null) => {
 };
 
 const handleClickFill = () => {
-  if (filling) {
+  if (filling && !erasing) {
     fill();
     getSocket().emit(window.events.fill, { color: ctx.strokeStyle });
   }
@@ -109,17 +118,29 @@ const handleClickMode = () => {
 };
 
 const handleInputRangeEraser = (e) => {
-  const size = e.target.value;
-  ctx.lineWidth = size;
+  if (erasing) {
+    const size = e.target.value;
+    ctx.lineWidth = size;
+  }
+};
+
+const erase = () => {
+  // filling = false;
+  erasing = true;
+  ctx.globalCompositeOperation = "destination-out";
+  ctx.lineWidth = eraserRange.value;
 };
 
 const handleClickEraser = () => {
-  ctx.globalCompositeOperation = "destination-out";
+  erase();
+  getSocket().emit(window.events.erase);
 };
 
 export const handleBeganPth = ({ x, y, size }) => beginPath(x, y, size);
 export const handleStrokenPath = ({ x, y, color }) => strokePath(x, y, color);
 export const handleFilled = ({ color }) => fill(color);
+export const handleErased = () => erase();
+export const handleSetPenciled = () => setPencil();
 
 if (canvas) {
   canvas.addEventListener("mousemove", handleMousemove);
@@ -132,7 +153,7 @@ if (canvas) {
     color.addEventListener("click", handleClickColor)
   );
 
-  boldRange.addEventListener("input", handleInputRangeFill);
+  boldRange.addEventListener("input", handleInputRangePencil);
   mode.addEventListener("click", handleClickMode);
   eraser.addEventListener("click", handleClickEraser);
   eraserRange.addEventListener("input", handleInputRangeEraser);

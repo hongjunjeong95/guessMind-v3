@@ -10,6 +10,10 @@ const events = {
   strokenPath: "strokenPath",
   fill: "fill",
   filled: "filled",
+  erase: "erase",
+  erased: "erased",
+  setPencil: "setPencil",
+  setPenciled: "setPenciled",
 };
 
 export default events;
