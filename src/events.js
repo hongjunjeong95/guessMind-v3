@@ -1,7 +1,6 @@
 const events = {
   login: "login",
   newUser: "newUser",
-  addPlayer: "addPlayer",
   sendMsg: "sendMsg",
   newMsg: "newMsg",
   beginPath: "beginPath",
@@ -14,6 +13,8 @@ const events = {
   erased: "erased",
   setPencil: "setPencil",
   setPenciled: "setPenciled",
+  addPlayer: "addPlayer",
+  playerUpdate: "playerUpdate",
 };
 
 export default events;

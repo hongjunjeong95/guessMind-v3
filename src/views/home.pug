@@ -36,6 +36,9 @@ block content
       .logout
         button.link#jsLogOut
           a(href=routes.logout) Logout
+      .player__board#jsPBoard
+        each user in users
+          span #{user.username}: #{user.points}
       .chat
         ul.chat__messages#jsMessages
         form.chat__form#jsSendMsg

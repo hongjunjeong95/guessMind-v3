@@ -125,7 +125,6 @@ const handleInputRangeEraser = (e) => {
 };
 
 const erase = () => {
-  // filling = false;
   erasing = true;
   ctx.globalCompositeOperation = "destination-out";
   ctx.lineWidth = eraserRange.value;

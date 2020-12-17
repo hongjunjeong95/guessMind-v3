@@ -25,4 +25,5 @@ export const handleNewuser = ({ username }) => {
 export const handleLogin = ({ username }) => {
   localStorage.setItem(USERANME, username);
   userNoti(username);
+  getSocket().emit(window.events.addPlayer, { username });
 };

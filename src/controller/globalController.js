@@ -3,12 +3,18 @@ import routes from "../routes";
 import User from "../models/User";
 import events from "../events";
 import io from "../server";
+import { sockets } from "../socketController";
 
 const superBroadcast = (event, data) => io.emit(event, data);
+const sendPlayerUpdate = () => superBroadcast(events.playerUpdate, { sockets });
 
 export const home = (req, res) => {
   try {
-    res.render("home", { pageTitle: "home", events: JSON.stringify(events) });
+    res.render("home", {
+      pageTitle: "home",
+      events: JSON.stringify(events),
+      users: sockets,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -74,6 +80,7 @@ export const notifyLogin = async (req, res) => {
     socket.broadcast.emit(events.newUser, { username });
   });
 
+  sendPlayerUpdate();
   res.redirect(routes.home);
 };
 
