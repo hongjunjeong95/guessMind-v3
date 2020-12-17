@@ -1,5 +1,9 @@
 import { handleNewMsg } from "./chat";
-import { handleLogin, handleNewuser } from "./notifications";
+import {
+  handleLogin,
+  handleNewuser,
+  handledisConnected,
+} from "./notifications";
 import {
   handleBeganPth,
   handleErased,
@@ -25,4 +29,5 @@ export const initSocket = (aSocket) => {
   socket.on(events.erased, handleErased);
   socket.on(events.setPenciled, handleSetPenciled);
   socket.on(events.playerUpdate, handlePlayerUpdate);
+  socket.on(events.disconnected, handledisConnected);
 };

@@ -15,6 +15,7 @@ const events = {
   setPenciled: "setPenciled",
   addPlayer: "addPlayer",
   playerUpdate: "playerUpdate",
+  disconnected: "disconnected",
 };
 
 export default events;

@@ -84,7 +84,18 @@ export const notifyLogin = async (req, res) => {
   res.redirect(routes.home);
 };
 
-export const logout = (req, res) => {
+export const logout = async (req, res) => {
+  const {
+    user: { id },
+  } = req;
+  const logoutUser = await User.findById(id);
+  const itemIdx = sockets.findIndex(
+    (aSocket) => aSocket.username === logoutUser.username
+  );
+  if (itemIdx > -1) sockets.splice(itemIdx, 1);
+  io.emit(events.disconnected, { username: logoutUser.username });
+  sendPlayerUpdate();
+
   req.logout();
   res.redirect(routes.home);
 };

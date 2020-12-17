@@ -27,3 +27,10 @@ export const handleLogin = ({ username }) => {
   userNoti(username);
   getSocket().emit(window.events.addPlayer, { username });
 };
+
+export const handledisConnected = ({ username }) => {
+  localStorage.removeItem(USERANME);
+  const text = `${username} just left!`;
+  const color = "rgb(255, 149, 0)";
+  fireNotification(text, color);
+};
