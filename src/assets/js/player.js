@@ -6,9 +6,14 @@ import {
   resetCanvas,
   showControls,
 } from "./paint";
+import { getSocket } from "./sockets";
 
 const board = document.getElementById("jsPBoard");
 const notify = document.getElementById("jsNotify");
+
+const USERNAME = "username";
+
+export let timeout = null;
 
 const addPlayers = (players) => {
   board.innerHTML = "";
@@ -35,4 +40,12 @@ export const handleGameStarted = () => {
 
 export const handleGameEnded = () => {
   resetCanvas();
+  setInterval(handleRefresh, 1000);
 };
+
+const handleRefresh = () => {
+  let username = localStorage.getItem(USERNAME);
+  getSocket().emit(window.events.refresh, { username });
+};
+
+timeout = setInterval(handleRefresh, 1000);

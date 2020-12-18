@@ -19,6 +19,8 @@ const events = {
   painterNotif: "painterNotif",
   gameStarted: "gameStarted",
   gameEnded: "gameEnded",
+  disconnect: "disconnect",
+  refresh: "refresh",
 };
 
 export default events;

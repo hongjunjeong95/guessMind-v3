@@ -1,3 +1,4 @@
+import { timeout } from "./player";
 import { getSocket } from "./sockets";
 
 const messages = document.getElementById("jsMessages");
@@ -16,6 +17,7 @@ const appendMsg = (message, username) => {
 
 const handleSendMsg = (e) => {
   e.preventDefault();
+  clearTimeout(timeout);
   const input = sendMsg.querySelector("input");
   const { value } = input;
   let username = localStorage.getItem(USERNAME);

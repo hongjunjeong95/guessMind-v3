@@ -29,10 +29,27 @@ export const socketController = (socket, io) => {
     superBroadcast(events.gameEnded);
     setTimeout(startGame, 2000);
   };
+  const addPoints = (id) => {
+    console.log("addPoints");
+    console.log(sockets);
+    console.log(socket.id);
+    sockets = sockets.map((socket) => {
+      if (socket.id === id) socket.points += 10;
+      return socket;
+    });
+    sendPlayerUpdate();
+    endGame();
+  };
 
-  socket.on(events.sendMsg, ({ message, username }) =>
-    broadcast(events.newMsg, { message, username })
-  );
+  socket.on(events.sendMsg, ({ message, username }) => {
+    if (word === message) {
+      addPoints(socket.id);
+      superBroadcast(events.newMsg, {
+        message: `Winner is ${socket.username}, word was ${word}`,
+        username: "Bot",
+      });
+    } else broadcast(events.newMsg, { message, username });
+  });
   socket.on(events.beginPath, ({ x, y, size }) =>
     broadcast(events.beganPth, { x, y, size })
   );
@@ -47,5 +64,18 @@ export const socketController = (socket, io) => {
     sockets.push({ id: socket.id, points: 0, username });
     sendPlayerUpdate();
     setTimeout(startGame, 2000);
+  });
+  socket.on(events.disconnect, () => {
+    endGame();
+  });
+  socket.on(events.refresh, ({ username }) => {
+    sockets = sockets.map((aSocket) => {
+      if (aSocket.username === username) {
+        aSocket.username = username;
+        aSocket.id = socket.id;
+        socket.username = username;
+      }
+      return aSocket;
+    });
   });
 };
