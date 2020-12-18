@@ -3,6 +3,7 @@ import {
   disableCanvas,
   enableCanvas,
   hideControls,
+  resetCanvas,
   showControls,
 } from "./paint";
 
@@ -30,4 +31,8 @@ export const handleGameStarted = () => {
   disableCanvas();
   hideControls();
   showChat();
+};
+
+export const handleGameEnded = () => {
+  resetCanvas();
 };

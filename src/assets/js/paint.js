@@ -159,6 +159,7 @@ export const disableCanvas = () => {
 
 export const hideControls = () => (controls.style.display = "none");
 export const showControls = () => (controls.style.display = "flex");
+export const resetCanvas = () => fill("#fff");
 
 if (canvas) {
   disableCanvas();

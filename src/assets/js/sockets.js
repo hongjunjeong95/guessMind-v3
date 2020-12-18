@@ -12,6 +12,7 @@ import {
   handleStrokenPath,
 } from "./paint";
 import {
+  handleGameEnded,
   handleGameStarted,
   handlePainterNotif,
   handlePlayerUpdate,
@@ -36,4 +37,5 @@ export const initSocket = (aSocket) => {
   socket.on(events.disconnected, handledisConnected);
   socket.on(events.painterNotif, handlePainterNotif);
   socket.on(events.gameStarted, handleGameStarted);
+  socket.on(events.gameEnded, handleGameEnded);
 };

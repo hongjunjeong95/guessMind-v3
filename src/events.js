@@ -18,6 +18,7 @@ const events = {
   disconnected: "disconnected",
   painterNotif: "painterNotif",
   gameStarted: "gameStarted",
+  gameEnded: "gameEnded",
 };
 
 export default events;

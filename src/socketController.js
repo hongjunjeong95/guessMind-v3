@@ -4,6 +4,10 @@ import { chooseWord } from "./words";
 
 export let sockets = [];
 
+let painter = null;
+let word = null;
+let timeout = null;
+
 export const socketController = (socket, io) => {
   const broadcast = (event, data) => socket.broadcast.emit(event, data);
   const superBroadcast = (event, data) => io.emit(event, data);
@@ -12,14 +16,18 @@ export const socketController = (socket, io) => {
   const choosePainter = () =>
     sockets[Math.floor(Math.random() * sockets.length)];
   const startGame = () => {
-    // painter select
     if (sockets.length > 1) {
       superBroadcast(events.gameStarted);
-      const painter = choosePainter();
-      const word = chooseWord();
+      painter = choosePainter();
+      word = chooseWord();
       io.to(painter.id).emit(events.painterNotif, { word });
-      // time out
+      timeout = setTimeout(endGame, 30000);
     }
+  };
+  const endGame = () => {
+    if (timeout !== null) clearTimeout(timeout);
+    superBroadcast(events.gameEnded);
+    setTimeout(startGame, 2000);
   };
 
   socket.on(events.sendMsg, ({ message, username }) =>
