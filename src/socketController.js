@@ -30,9 +30,6 @@ export const socketController = (socket, io) => {
     setTimeout(startGame, 2000);
   };
   const addPoints = (id) => {
-    console.log("addPoints");
-    console.log(sockets);
-    console.log(socket.id);
     sockets = sockets.map((socket) => {
       if (socket.id === id) socket.points += 10;
       return socket;
