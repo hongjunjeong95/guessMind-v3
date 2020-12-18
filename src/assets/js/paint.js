@@ -7,6 +7,7 @@ const boldRange = document.getElementById("jsRangePencil");
 const mode = document.getElementById("jsMode");
 const eraser = document.getElementById("jsEraser");
 const eraserRange = document.getElementById("jsRangeEraser");
+const controls = document.getElementById("jsControls");
 
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 700;
@@ -140,14 +141,27 @@ export const handleStrokenPath = ({ x, y, color }) => strokePath(x, y, color);
 export const handleFilled = ({ color }) => fill(color);
 export const handleErased = () => erase();
 export const handleSetPenciled = () => setPencil();
-
-if (canvas) {
+export const enableCanvas = () => {
   canvas.addEventListener("mousemove", handleMousemove);
   canvas.addEventListener("mousedown", handleMouseDown);
   canvas.addEventListener("mouseup", handleMouseUp);
   canvas.addEventListener("mouseleave", handleMouseLeave);
   canvas.addEventListener("click", handleClickFill);
+};
 
+export const disableCanvas = () => {
+  canvas.removeEventListener("mousemove", handleMousemove);
+  canvas.removeEventListener("mousedown", handleMouseDown);
+  canvas.removeEventListener("mouseup", handleMouseUp);
+  canvas.removeEventListener("mouseleave", handleMouseLeave);
+  canvas.removeEventListener("click", handleClickFill);
+};
+
+export const hideControls = () => (controls.style.display = "none");
+export const showControls = () => (controls.style.display = "flex");
+
+if (canvas) {
+  disableCanvas();
   Array.from(colors).forEach((color) =>
     color.addEventListener("click", handleClickColor)
   );

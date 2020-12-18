@@ -16,6 +16,8 @@ const events = {
   addPlayer: "addPlayer",
   playerUpdate: "playerUpdate",
   disconnected: "disconnected",
+  painterNotif: "painterNotif",
+  gameStarted: "gameStarted",
 };
 
 export default events;
